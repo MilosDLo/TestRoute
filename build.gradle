@@ -1,0 +1,17 @@
+
+// Apply the java plugin to add support for Java
+apply plugin: 'war'
+
+// In this section you declare where to find the dependencies of your project
+repositories {
+    mavenLocal()
+	mavenCentral()
+}
+
+
+dependencies {
+    compile 'org.slf4j:slf4j-api:1.7.22'
+    providedCompile 'javax:javaee-api:7.0'
+    testCompile 'junit:junit:4.12'
+}
+
