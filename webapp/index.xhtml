@@ -2,12 +2,105 @@
 <html>
 <head>
 <meta charset="UTF-8"/>
-<title>Insert title here</title>
+<title>Routes</title>
+<link rel="stylesheet" href="#{request.contextPath}/resources/bootstrap/css/bootstrap.min.css"/>
+
+<style>
+html, body {
+        height: 100%;
+        margin: 10px;
+        padding: 0;
+      }
+		#map {
+        height: 90%;
+        float: right;
+        width: 50%;
+        margin-right:20px;
+        height: 90%;
+      }
+      #table {
+      border-collapse:separate;
+      margin-top: 20px;     
+   	 }
+   	 #routesTable{
+   	 	width:100%;
+   	 }
+   	 
+   	 #table th, #table td {
+      border-bottom: 1px solid #ddd;
+     }
+     
+     th { height: 40px; }
+     
+	th, td { padding: 5px; }
+	
+	thead{background-color: #d3d3d3;}
+	
+	tr:nth-child(even) {background-color: #f2f2f2}
+	#main{
+	width:100%;
+	height:70%;
+	}
+	#refreshBtn{
+		float:right;
+	}
+
+
+</style>
+
+
+
+
 </head>
 <body>
-	<H1>Test</H1>
+	<h1 style="float: center; margin: 10px">Optimal Routes</h1>
 	
+	<div id='main'>
+		<div id="left" style="float: left; margin:10px; width: 45%" >
+			<div style="hight: 50%">
+				<div style="margin:10px 0px">
+					<strong >Routes:</strong>
+					<button type="button" class="btn btn-default refresh-routes-btn" id="refreshBtn">Refresh</button>
+				</div>
+				<div id="table">
+					<table id="routesTable">
+						<thead>
+							<tr>
+								<th>Route</th>
+								<th>Weight(kg)</th>
+								<th>Distance(km)</th>
+								<th>Price</th>
+							</tr>
+						</thead>
+						<tbody id="routesTable_body">
+							
+						</tbody>
 
+
+
+
+					</table>
+					
+				
+				
+				</div>	
+
+			</div>						
+		</div>
+
+		<div id="map">		
+		</div>	
+	
+	</div>
+
+	
+	
+	
+	
+	<script  src="#{request.contextPath}/resources/jquery/jquery.min.js"></script>
+	<script  src="#{request.contextPath}/resources/scripts/main.js"></script>
+	<script async="async" defer="defer" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAx7SO89sRhwv9yAoIyY3NgDVcWM6mh838&amp;callback=initMap">
+    </script>
 
 
 </body>
