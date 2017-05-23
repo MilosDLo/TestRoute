@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+	<persistence-unit name="RootingProject" transaction-type="JTA">
+	<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+	<jta-data-source>jdbc/db_mo</jta-data-source>
+	<class>net.rooting.domain.Org</class>
+	<class>net.rooting.domain.Order</class>
+		<properties>
+
+<!-- property name="hibernate.archive.autodetection" value="class"/ -->
+
+<!-- property name="hibernate.id.new_generator_mappings" value="false"/ -->
+
+<property name="hibernate.classloading.use_current_tccl_as_parent" value="false" />
+
+<property name="hibernate.show_sql" value="true" />
+
+<property name="hibernate.cache.use_second_level_cache" value="false" />
+
+<property name="hibernate.cache.use_query_cache" value="false" />
+
+<property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>
+
+<property name="hibernate.transaction.jta.platform"  value="org.hibernate.service.jta.platform.internal.SunOneJtaPlatform"/>
+
+</properties>
+	</persistence-unit>
+</persistence>

@@ -18,6 +18,7 @@ import net.rooting.beans.RouteBean;
 public class RoutingServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	public static final String ACTION_GET_ROUTES = "getRoutes";
+	private static final String TEST = "test";
 
 	
 	@Inject
@@ -51,13 +52,23 @@ public class RoutingServlet extends HttpServlet {
 		
 		switch (action) {
 		case ACTION_GET_ROUTES:
+
+//			int companyID = 194;  //Imlek		
+//			String shipment_route = "F58";
+//			String date = "20160901";
 			
-			String routesID = request.getParameter("routesID");
-			json = routeBean.getRouteJson(routesID);
+			String companyID = request.getParameter("companyID");
+			String shipment_route = request.getParameter("shipment_route");
+			String date = request.getParameter("date");
+			
+			json = routeBean.getRouteJson(companyID,shipment_route,date);
 			
 			
 			break;
-
+			
+		case TEST:
+			json = routeBean.getTest();
+			break;
 		default:
 			break;
 		}
