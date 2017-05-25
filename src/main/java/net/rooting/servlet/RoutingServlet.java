@@ -52,18 +52,13 @@ public class RoutingServlet extends HttpServlet {
 		
 		switch (action) {
 		case ACTION_GET_ROUTES:
-
-//			int companyID = 194;  //Imlek		
-//			String shipment_route = "F58";
-//			String date = "20160901";
 			
 			String companyID = request.getParameter("companyID");
 			String shipment_route = request.getParameter("shipment_route");
 			String date = request.getParameter("date");
 			
 			json = routeBean.getRouteJson(companyID,shipment_route,date);
-			
-			
+						
 			break;
 			
 		case TEST:

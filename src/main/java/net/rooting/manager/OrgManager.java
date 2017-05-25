@@ -44,7 +44,7 @@ public class OrgManager {
 	
 	public List<Long> getOrgIdsFromOrders(String companyID,String shipment_route,String date){
 		return (List<Long>)entityManager.createQuery("select o2.orgId from Order AS o2 "
-				+"where o2.companyId=194 and o2.statusId in (2,3) and o2.orderTypeId=15 and o2.orderDay=20160901 and o2.shipmentRoute='F58'",Long.class).getResultList();
+				+"where o2.companyId=194 and o2.statusId in (2,3) and o2.orderTypeId=15 and o2.orderDay=20160901 and o2.shipmentRoute='D12'",Long.class).getResultList();
 	}	
 	
 }

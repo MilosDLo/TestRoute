@@ -12,6 +12,7 @@ repositories {
 dependencies {
     compile 'org.slf4j:slf4j-api:1.7.22'
     compile 'net.esteh:EMUtility:1.0'
+    compile 'com.google.maps:google-maps-services:0.1.20'
     compile group: 'org.hibernate', name: 'hibernate-entitymanager', version: '4.3.11.Final'
 	compile group: 'org.hibernate.common', name: 'hibernate-commons-annotations', version: '4.0.5.Final'
 	compile group: 'org.hibernate.javax.persistence', name: 'hibernate-jpa-2.1-api', version: '1.0.0.Final'
