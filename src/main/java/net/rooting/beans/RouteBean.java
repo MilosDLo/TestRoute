@@ -1,13 +1,20 @@
 package net.rooting.beans;
 
 
+import java.io.IOException;
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 
+import com.google.maps.errors.ApiException;
+
+import net.esteh.em.util.JsonUtil;
 import net.rooting.Util.JsonDirectionUtil;
 //import net.esteh.mobile.domain.Org;
 import net.rooting.Util.JsonDirectionUtil;
@@ -17,6 +24,9 @@ import net.rooting.manager.OrgManager;
 
 @Dependent
 public class RouteBean {
+	public static final String ORDER = "order";
+	public static final String TOTAL_DISTANCE = "totalDistance";
+	public static final String ORGS = "orgs";
 
 	
 	@Inject
@@ -31,21 +41,51 @@ public class RouteBean {
 	public String getRouteJson(String companyID,String shipment_route,String date){
 		String json = "";
 		
-		List<Org> orgs = man.getOrgsInRoute(companyID,shipment_route,date);
-		
-		if (orgs.size() > 2) {                                         //TODO !M promeni u >25
-			String[] points = getPoints(orgs); 
-			String result = opt.getOptimizedOrderOfPoints(points);
+		try {
+			List<Org> orgs = man.getOrgsInRoute(companyID,shipment_route,date);
 			
-		} else {
-			//TODO !M sta ako je ispod 25?
+			if (orgs.size() > 2) {                                         //TODO !M promeni u >25
+				Map<String,Object> orderedOrgs = getOrderedOrgsList(orgs);
+				json = jsonDirectionUtil.getJsonFromResultSet(orderedOrgs);
+				
+			} else {
+				Map<String,Object> orgsMap = new HashMap<>();
+				orgsMap.put(ORGS, orgs);
+				json = jsonDirectionUtil.getJsonFromResultSet(orgsMap);
+			}
+		} catch (ApiException | InterruptedException | IOException e) {
+			// TODO Auto-generated catch block
+			//e.printStackTrace();
+			json = jsonDirectionUtil.getErrorJsonString(e.getMessage());
+		}
+				
+		return json;
+	}
+
+	private Map<String,Object> getOrderedOrgsList(List<Org> orgs) throws ApiException, InterruptedException, IOException {
+		String[] points = getPoints(orgs); 
+		Map<String,Object> orderAndDistance = opt.getOptimizedOrderOfPoints(points);
+		Map<String,Object> orderedOrgsAndTotalDistance = getOrderedOrgsAndTotalDistance(orgs,orderAndDistance);
+		return orderedOrgsAndTotalDistance;
+	}	
+	
+	
+	private Map<String,Object> getOrderedOrgsAndTotalDistance(List<Org> orgs,Map<String,Object> orderAndDistance) {
+		
+		//for petlja sutra
+		List<Org> finalOrderedOrgs = new ArrayList<>();
+		int[] order = (int[])orderAndDistance.get(ORDER);
+		
+		for (int i = 0; i < order.length; i++) {
+			finalOrderedOrgs.add(i, orgs.get(order[i])); 
 		}
 		
 		
+		Map<String,Object> orderedOrgsAndTotalDistance = new HashMap<>();
+		orderedOrgsAndTotalDistance.put(ORGS, finalOrderedOrgs);
+		orderedOrgsAndTotalDistance.put(TOTAL_DISTANCE, orderAndDistance.get(TOTAL_DISTANCE));
+		return orderedOrgsAndTotalDistance;
 		
-		
-		json = jsonDirectionUtil.getJsonFromResultSet(orgs);		
-		return json;
 	}
 
 	private String[] getPoints(List<Org> orgs) {
@@ -59,21 +99,27 @@ public class RouteBean {
 		return pointsArray;		
 	}
 
-	private String[] getRoutesArray(String routesID) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 	
 	
 	
 	
-	public String getTest() {
+	//brisati posle testa
+	public String getTestWithoutOptim(String companyID,String shipment_route,String date) {
+		String json = "";
 		
-//		int companyID = 194;  //Imlek		
-//		String shipment_route = "F58";
-//		String date = "20160901";
-		return "";					
+		try {
+			List<Org> orgs = man.getOrgsInRoute(companyID,shipment_route,date);
+			
+			Map<String,Object> orgsMap = new HashMap<>();
+			orgsMap.put(ORGS, orgs);
+			json = jsonDirectionUtil.getJsonFromResultSet(orgsMap);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			//e.printStackTrace();
+			json = jsonDirectionUtil.getErrorJsonString(e.getMessage());
+		}
+		
+		return json;
 	}	
 	
 }

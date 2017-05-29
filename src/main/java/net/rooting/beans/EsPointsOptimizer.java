@@ -1,6 +1,9 @@
 package net.rooting.beans;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
@@ -25,27 +28,25 @@ public class EsPointsOptimizer {
 	
 	
 	
-	public String getOptimizedOrderOfPoints(String[] points){
+	public Map<String, Object> getOptimizedOrderOfPoints(String[] points) throws ApiException, InterruptedException, IOException{
+
+		DistanceMatrix distanceMatrixResult = distanceMatrixManager.getDistancesBeetwenPoints(points);
+		long[][] distanceMatrixArray = getDistanceMatrixArray(distanceMatrixResult);
+
+		Map<String, Object> orderOfOrgs = ortools.getOrderOfOrgs(distanceMatrixArray);
+		@SuppressWarnings("unchecked")
+		ArrayList<Integer> orderList = (ArrayList<Integer>) orderOfOrgs.get("order");
+		int[] order = getArrayFromArrayList(orderList);
+		orderOfOrgs.replace("order", order);
 		
-		try {
-			DistanceMatrix distanceMatrixResult = distanceMatrixManager.getDistancesBeetwenPoints(points);
-			long[][] distanceMatrixArray = getDistanceMatrixArray(distanceMatrixResult);
-//			long[] orderOfOrgs = ortools.getOrderOfOrgs(distanceMatrixArray);
-			
-			String test = "";
-						
-			
-		} catch (ApiException | InterruptedException | IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		return null;
+		return orderOfOrgs;
 		
 	}
 
 
 
+
+	
 
 	private long[][] getDistanceMatrixArray(DistanceMatrix distanceMatrixResult) {
 		
@@ -62,7 +63,16 @@ public class EsPointsOptimizer {
 			}
 		}		
 		return distanceMatrixArray;
-
+	}
+	
+	private int[] getArrayFromArrayList(ArrayList<Integer> list) {
+		int[] arr = new int[list.size()];
+		for(int i = 0; i < list.size(); i++) {
+		    if (list.get(i) != null) {
+		        arr[i] = list.get(i);
+		    }
+		}
+		return arr;
 	}
 	
 	

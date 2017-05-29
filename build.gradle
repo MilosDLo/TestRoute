@@ -17,6 +17,8 @@ dependencies {
 	compile group: 'org.hibernate.common', name: 'hibernate-commons-annotations', version: '4.0.5.Final'
 	compile group: 'org.hibernate.javax.persistence', name: 'hibernate-jpa-2.1-api', version: '1.0.0.Final'
 	compile group: 'org.hibernate', name: 'hibernate-core', version: '4.3.11.Final'
+	compile group: 'com.google.protobuf', name: 'protobuf-java', version: '3.3.1'
+    compile fileTree(dir: 'webapp/WEB-INF/lib', include: '*.jar')
     providedCompile 'javax:javaee-api:7.0'
     testCompile 'junit:junit:4.12'
 }

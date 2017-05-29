@@ -1,0 +1,128 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd" >
+<html>
+<head>
+	<meta charset="UTF-8"/>
+	<title>Test Direction</title>
+
+	<link rel="stylesheet" href="#{request.contextPath}/resources/bootstrap/css/bootstrap.min.css"/>
+	<style>
+		html, body {
+        height: 100%;
+        margin: 10px;
+        padding: 0;
+      }
+		#leftMap,#rightMap {
+        height: 90%;
+        float: right;
+        width: 50%;
+        margin-right:20px;
+        /* height: 90%; */
+      }
+      .table {
+      border-collapse:separate;
+      margin-top: 20px;
+      margin-bottom: 80px;
+      
+   	 }
+   	 #directionTable,#directionORToolsTable{ width:100%; }
+   	 
+   	 .table th, .table td {
+      border-bottom: 1px solid #ddd;
+     }
+     
+     .table tfoot {
+      /* padding: 35px; */
+      border-top: 1px solid #ddd;
+      border-bottom: 2px solid #ddd;
+     }
+     
+     .table tfoot tr th{ padding-top: 30px; }
+     .table tfoot tr td{ padding-top: 30px; }
+     
+     th { height: 40px; }
+     
+	th, td { padding: 5px; }
+	
+	thead{background-color: #d3d3d3;}
+	#directionTable 
+	
+	tr:nth-child(even) {background-color: #f2f2f2}
+	#main{
+	width:100%;
+	height:60%;
+	}
+	
+	#params{
+		margin-top:20px;
+		text-align: center;
+		font-size: 16px;
+	
+	}
+	.btn{
+		margin-bottom: 10px; 
+	}
+	
+	</style>
+	
+</head>
+<body>
+	<!-- <h1 style="float: center; margin: 10px">Test DirectionApi</h1> -->
+	
+	<div id='main'>
+		<div id="leftMap" style="float: left; margin:10px; width: 45%" >							
+		</div>
+
+		<div id="rightMap" style="float: right; margin:10px; width: 45%">		
+		</div>	
+	
+	</div>
+	<div id='params'> <strong>Parametri:</strong>        Firma:"Imlek" ; Ruta:"G05" ; Datum:20160901</div>
+	<div>
+		<div class = "table">
+				<button class="btn btn-default directionApi-btn">use directionApi</button>
+				<table id = 'directionTable'>
+					<thead>
+					<tr>
+					<th>Route</th><th>Weight(kg)</th><th>Distance(km)</th><th>Price</th>
+					</tr>
+					</thead>
+					<tbody id = 'directionTableBody'>
+					
+					</tbody>
+					<tfoot id = 'directionTableFoot'>
+					
+					</tfoot>
+				</table>			
+			</div>	
+	</div>
+	<div>
+		<div class = "table">
+				<button class="btn btn-default directionORToolsTable-btn" >use or-tools+Dapi</button>
+				<table id = 'directionORToolsTable'>
+					<thead>
+					<tr>
+					<th>Route</th><th>Weight(kg)</th><th>Distance(km)</th><th>Price</th>
+					</tr>
+					</thead>
+					<tbody id = 'directionORToolsTableBody'>
+					
+					</tbody>
+					<tfoot id = 'directionORToolsTableFoot'>
+					
+					</tfoot>
+				</table>			
+			</div>	
+	</div> 
+	
+	
+
+	
+	
+	<script  src="#{request.contextPath}/resources/jquery/jquery.min.js"></script>
+	<script  src="#{request.contextPath}/resources/scripts/compare.js"></script>
+	<script async="async" defer="defer" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAx7SO89sRhwv9yAoIyY3NgDVcWM6mh838&amp;callback=initMap">
+    </script>
+	
+</body>
+</html>
