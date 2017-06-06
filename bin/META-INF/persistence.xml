@@ -5,6 +5,7 @@
 	<jta-data-source>jdbc/db_mo</jta-data-source>
 	<class>net.rooting.domain.Org</class>
 	<class>net.rooting.domain.Order</class>
+	<class>net.rooting.domain.ShipmentRoute</class>
 		<properties>
 
 <!-- property name="hibernate.archive.autodetection" value="class"/ -->

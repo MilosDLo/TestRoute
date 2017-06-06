@@ -16,15 +16,18 @@ public class Org{
 	private String extCode = "";
 	private Long longitude;	
 	private Long latitude;
+	private String address1 = "";
 	
 	
-	public Org(Long id, String name, String extCode, Long longitude, Long latitude) {
+	public Org(Long id, String name, String extCode, Long longitude, Long latitude,String address1) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.extCode = extCode;
 		this.longitude = longitude;
 		this.latitude = latitude;
+		this.address1 = address1;
+		
 	}		
 	public Org() {		
 	}
@@ -78,6 +81,14 @@ public class Org{
 		this.latitude = latitude;
 	}
 	
+	@Column(name = "address1")
+	public String getAddress1() {
+		return this.address1;
+	}
+
+	public void setAddress1(String address1) {
+		this.address1 = address1;
+	}
 	
 	
 	

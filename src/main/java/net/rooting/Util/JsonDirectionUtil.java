@@ -95,5 +95,145 @@ public class JsonDirectionUtil {
 		return errorBuilder.build().toString();
 		
 	}
+
+
+
+	public String getJsonFromOrgsNamesAndCount(List<Object[]> orgs) {
+		String json = "";
+		
+		JsonArrayBuilder routeArrayBuilder = Json.createArrayBuilder();
+		for (Object[] org : orgs) {
+			routeArrayBuilder.add(getRouteNameCountJsonObject(org));
+		}
+				
+		JsonObjectBuilder dataBuilder = Json.createObjectBuilder();	
+		dataBuilder.add("routeName&Count", routeArrayBuilder);		
+		
+		JsonObjectBuilder jsonRootBuilder = Json.createObjectBuilder();	
+		jsonRootBuilder.add("data", dataBuilder);
+		jsonRootBuilder.add("status", OK_STATUS);
+		
+		JsonObject jsonObj = jsonRootBuilder.build();
+		json = jsonObj.toString();
+		
+		return json;			
+	}
+
+
+
+	private JsonObject getRouteNameCountJsonObject(Object[] org) {
+		JsonObjectBuilder routeBuilder = Json.createObjectBuilder();
+		routeBuilder.add("name", org[1].toString());
+		routeBuilder.add("count", org[0].toString());
+		return routeBuilder.build();
+	}
+
+
+
+	public String getJsonFromAll(List<Map<String,Object>> orgs) {		
+		String json = "";
+		
+		JsonArrayBuilder routeArrayBuilder = Json.createArrayBuilder();
+		for (Map<String, Object> map : orgs) {
+			routeArrayBuilder.add(getRouteInfoJsonObject(map));
+		}			
+		
+		
+		JsonObjectBuilder dataBuilder = Json.createObjectBuilder();	
+		dataBuilder.add("routes", routeArrayBuilder);		
+		
+		JsonObjectBuilder jsonRootBuilder = Json.createObjectBuilder();	
+		jsonRootBuilder.add("data", dataBuilder);
+		jsonRootBuilder.add("status", OK_STATUS);
+		
+		JsonObject jsonObj = jsonRootBuilder.build();
+		json = jsonObj.toString();
+		
+		return json;
+	}
+
+
+
+	private JsonValue getRouteInfoJsonObject(Map<String, Object> map) {
+		JsonObjectBuilder routeBuilder = Json.createObjectBuilder();
+		routeBuilder.add("name", map.get("name").toString());
+		routeBuilder.add("shipment_route", map.get("shipment_route").toString());
+		routeBuilder.add("longitude", map.get("longitude").toString());
+		routeBuilder.add("latitude", map.get("latitude").toString());
+		routeBuilder.add("weightNet", map.get("weightNet").toString());		
+		return routeBuilder.build();
+	}
+
+
+
+	
+
+
+
+	public JsonObject getRouteArrayJsonObject(Map<String, Object> orgsMap, Long totalWeightOnRoute, double totalDistance,
+			String route) {
+		
+		JsonObjectBuilder routeBuilder = Json.createObjectBuilder();
+		
+		routeBuilder.add("shipment_route", route);
+		routeBuilder.add("totalWeight", totalWeightOnRoute);
+		routeBuilder.add("totalDistance", totalDistance);
+		routeBuilder.add("price", "-");		   //promeniti
+		
+		routeBuilder.add("orgs", getOrgForRouteJsonArray(orgsMap));
+		
+		
+		return routeBuilder.build();
+		
+		
+	}
+
+
+
+	private javax.json.JsonArray getOrgForRouteJsonArray(Map<String, Object> orgsMap) {
+		@SuppressWarnings("unchecked")
+		List<Org> orgs = (List<Org>) orgsMap.get("orgs");
+		
+		JsonArrayBuilder orgsArrayBuilder = Json.createArrayBuilder();
+		for (Org org : orgs) {
+			JsonObject orgJsonObj = getOrgAllJsonObject(org);
+			if (orgJsonObj!= null) {
+				orgsArrayBuilder.add(orgJsonObj);				
+			}
+		}
+		return orgsArrayBuilder.build();				
+	}
+	
+	
+	private JsonObject getOrgAllJsonObject(Org org) {
+		JsonObjectBuilder orgBuilder = Json.createObjectBuilder();
+		//orgBuilder.add("name", org.getName());
+		if (org.getLatitude() == null || org.getLongitude() == null) {
+			return null;
+		}else{
+			orgBuilder.add("lat", ((double)org.getLatitude())/1000000000);
+			orgBuilder.add("lng", ((double)org.getLongitude())/1000000000);
+			return orgBuilder.build();			
+		}
+		
+	}
+
+
+
+	public String getTotalJsonFinalOMG(JsonArrayBuilder routeArrayBuilder) {
+		String json = "";
+		JsonObjectBuilder dataBuilder = Json.createObjectBuilder();	
+		dataBuilder.add("routes", routeArrayBuilder);		
+		
+		JsonObjectBuilder jsonRootBuilder = Json.createObjectBuilder();	
+		jsonRootBuilder.add("data", dataBuilder);
+		jsonRootBuilder.add("status", OK_STATUS);
+		
+		JsonObject jsonObj = jsonRootBuilder.build();
+		json = jsonObj.toString();
+		
+		return json;
+	}
+		
 	
 }

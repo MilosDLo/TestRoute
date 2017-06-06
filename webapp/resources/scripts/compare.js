@@ -44,7 +44,7 @@
 			var date = "20160901";
 			var action = "getWthOptim"
 
-		    setRouteMap(action,companyID,shipment_route,date,directionsService1,directionsDisplay1,true);	        	   	                 
+		    setRouteMap(action,companyID,shipment_route,date,directionsService1,directionsDisplay1,true,1);	        	   	                 
 	    });   
 
 		$(".directionORToolsTable-btn").click(function () { 
@@ -56,8 +56,8 @@
 			var date = "20160901";
 			var action = "getRoutes"
 
-		    setRouteMap(action,companyID,shipment_route,date,directionsService2,directionsDisplay2,false);
-	    });   
+		    setRouteMap(action,companyID,shipment_route,date,directionsService2,directionsDisplay2,false,2);
+	    });
 
 	}
 	
@@ -65,7 +65,7 @@
 
 
 
-	function setRouteMap(action,companyID,shipment_route,date,directionsService,directionsDisplay,optimizeRoute){
+	function setRouteMap(action,companyID,shipment_route,date,directionsService,directionsDisplay,optimizeRoute,who){
 
 		var data = {};
 	        data["action"] = action;
@@ -83,14 +83,13 @@
 					if (response.status === "ERROR") {
 						alert(response.errorMsg);
 					} else {
-						
+						var origin = getOrigin(response);
+						var destination = getDestination(response);
+						var waypoints = getWaypoints(response);
+
+						getDirectionRouteFromApi(directionsService,directionsDisplay,origin,destination,waypoints,optimizeRoute,who);
 					}
 
-	            	var origin = getOrigin(response);
-	    			var destination = getDestination(response);
-	    			var waypoints = getWaypoints(response);
-
-					getDirectionRouteFromApi(directionsService,directionsDisplay,origin,destination,waypoints,optimizeRoute);          	
 	            }
 	        });
 	}
@@ -101,7 +100,7 @@
 
 
 	
-	function getDirectionRouteFromApi(directionsService,directionsDisplay,origin,destination,waypoints,optimizeRoute){
+	function getDirectionRouteFromApi(directionsService,directionsDisplay,origin,destination,waypoints,optimizeRoute,who){
 		directionsService.route({
 			origin:origin,
 			destination:destination,
@@ -110,7 +109,24 @@
 			travelMode: 'DRIVING'
 		},function(response,status) {
 			if (status === 'OK') {
-				directionsDisplay.setDirections(response);   
+				directionsDisplay.setDirections(response);
+
+				var totalDistance = 0;
+				var totalDuration = 0;
+				var legs = response.routes[0].legs;
+				for(var i=0; i<legs.length; ++i) {
+    				totalDistance += legs[i].distance.value;
+    				totalDuration += legs[i].duration.value;
+				}
+				if(who === 1){
+					$('.apiInput:text').val(totalDistance);
+					$('.apiInputTime:text').val(totalDuration);
+
+				}else{
+					$('.ortoolsInput').val(totalDistance);
+					$('.ortoolsInputTime').val(totalDuration);   
+				}
+				
 
 			}
 		});

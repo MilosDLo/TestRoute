@@ -17,10 +17,10 @@ public class Order {
 	private Long orderTypeId;
 	private String shipmentRoute;
 	private Long orderDay;
-	private Long org_id;
+	private Long orgId;
+	private Long weightNet; 
 	
 	public Order() {
-		// TODO Auto-generated constructor stub
 	}
 	
 	public Order(Long id) {
@@ -86,11 +86,20 @@ public class Order {
 	
 	@Column(name = "org_id")
 	public Long getOrgId() {
-		return this.companyId;
+		return this.orgId;
 	}
 
-	public void setOrgId(Long companyId) {
-		this.companyId = companyId;
+	public void setOrgId(Long orgId) {
+		this.orgId = orgId;
+	}
+	
+	@Column(name = "weight_net")
+	public Long getWeightNet() {
+		return weightNet;
+	}
+
+	public void setWeightNet(Long weight) {
+		this.weightNet = weight;
 	}
 	
 	

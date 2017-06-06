@@ -4,6 +4,7 @@
 <meta charset="UTF-8"/>
 <title>Routes</title>
 <link rel="stylesheet" href="#{request.contextPath}/resources/bootstrap/css/bootstrap.min.css"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
 
 <style>
 html, body {
@@ -23,6 +24,7 @@ html, body {
       margin-top: 20px;     
    	 }
    	 #routesTable{
+   	 	display: table;  /* new */
    	 	width:100%;
    	 }
    	 
@@ -34,7 +36,12 @@ html, body {
      
 	th, td { padding: 5px; }
 	
-	thead{background-color: #d3d3d3;}
+	thead{
+	background-color: #d3d3d3;
+	/* background-color: #4CAF50;
+    color: white; */
+	}
+	
 	
 	tr:nth-child(even) {background-color: #f2f2f2}
 	#main{
@@ -47,6 +54,34 @@ html, body {
 	#strong_date{
 		float:center;
 	}
+	
+	table tr[data-route] {
+    cursor: pointer;
+	}
+	
+	tr:hover {
+	background-color: #f5f5f5
+	}
+
+	#routesTable tbody {
+        overflow: auto !important;
+        height: 620px;
+    }
+    
+    #routesTable tr{
+    	width: 100%;
+    	display: table;
+    	text-align: left;
+    }
+    #routesTable th, #routesTable td {
+    width: 33%;
+    } 
+    
+	#routesTable thead, #routesTable tbody {
+    float: left;
+    width: 100%;
+}
+
 
 
 </style>
@@ -67,7 +102,7 @@ html, body {
 					<strong >IMLEK</strong>					
 					<button type="button" class="btn btn-default refresh-routes-btn" id="refreshBtn">Refresh</button>
 				</div>
-				<div id="table">
+				<div id="table" style="overflow-x:auto;">
 					<table id="routesTable">
 						<thead>
 							<tr>
@@ -104,6 +139,8 @@ html, body {
 	
 	<script  src="#{request.contextPath}/resources/jquery/jquery.min.js"></script>
 	<script  src="#{request.contextPath}/resources/scripts/main.js"></script>
+	<script src="#{request.contextPath}/resources/bootstrap/js/bootstrap.min.js"></script>
+	
 	<script async="async" defer="defer" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAx7SO89sRhwv9yAoIyY3NgDVcWM6mh838&amp;callback=initMap">
     </script>
 

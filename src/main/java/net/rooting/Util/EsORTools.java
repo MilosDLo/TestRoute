@@ -56,7 +56,7 @@ public class EsORTools {
 		      }
 		    }
 		    
-		    long globalResCost = solution.objectiveValue();
+		    long globalResCost = solution.objectiveValue();   //ako nekad bude trebalo
 		    
 		    Map<String,Object> resp = new HashMap<String,Object>();
 		    resp.put("order", globalRes);
